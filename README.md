@@ -1,5 +1,5 @@
 # Style transfer
-This is tensorflow implementation of 'Perceptual Losses for Real-Time Style Transfer and Super-Resolution'.
+This is tensorflow implementation of ['Perceptual Losses for Real-Time Style Transfer and Super-Resolution'](https://arxiv.org/abs/1603.08155).
 
 ## Download program
 ```
