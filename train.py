@@ -96,8 +96,18 @@ def train(argv=None):
         # load weight again because variables are all initialized
         vgg.load_weights('vgg16_weights.npz', sess) 
 
+        # load pretrained model
+        if FLAGS.load_pretrained_model:        
+            point = tf.train.latest_checkpoint(FLAGS.summary_dir)
+            print 'load last check point - ', point
+            saver.restore(sess, point)        
+
+
+
         # write graph definition
         tf.train.write_graph(sess.graph_def, FLAGS.summary_dir, '%s_graph_def.pb' % (FLAGS.style_image.split('/')[-1].split('.')[0]))
+
+
 
         # summary
         summary_writer = tf.summary.FileWriter(FLAGS.summary_dir, sess.graph)
@@ -105,6 +115,7 @@ def train(argv=None):
         # initialize the queue threads to start to shovel data
         coord = tf.train.Coordinator()
         threads = tf.train.start_queue_runners(coord=coord)
+
 
         count = 0
         for i in range(0, FLAGS.epoch):
@@ -164,14 +175,14 @@ def get_train_images():
 
 
 if __name__ == '__main__':
-    tf.app.flags.DEFINE_integer('batch_size', 16, """The batch size to use.""")
+    tf.app.flags.DEFINE_integer('batch_size', 4, """The batch size to use.""")
     tf.app.flags.DEFINE_float('alpha', 0.2, """weight for feature reconstruction loss.""")
     tf.app.flags.DEFINE_string('summary_dir', './summary', """summary directory.""")
     tf.app.flags.DEFINE_string('style_image', './style_images/starry_night.jpg', """target style image""")
     tf.app.flags.DEFINE_integer('train_size', 256, """image width and height""")
     tf.app.flags.DEFINE_string('train_path', './data/train2014', """path which contains train images""")
     tf.app.flags.DEFINE_integer('epoch', 2, """epoch""")
-    
+    tf.app.flags.DEFINE_bool('load_pretrained_model', False, "load pretrained model")    
 
     # clear summary directory
     log_files = glob(FLAGS.summary_dir + '/events*')

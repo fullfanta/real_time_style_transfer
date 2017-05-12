@@ -32,15 +32,21 @@ $ tensorboard --logdir=summary
 
 ## Freeze model
 ```
-$ sh freeze.sh
+$ sh freeze.sh 40000
 ```
 It generates pb file which contains weights as contant.
+First arugment means the iteration number of saved check point file.
 
 ## Test
 ```
-$ python stylizer.py --model=models/starry_night.pb --input_image=test_images/Aaron_Eckhart_0001.jpg
+$ python stylize.py --model=models/starry_night.pb --input_image=test_images/Aaron_Eckhart_0001.jpg
+$ python stylize.py --model=models/starry_night.pb --input_image=test_images/jolie.jpg --resize_ratio=2
+$ python stylize.py --model=models/starry_night.pb --input_image=test_images/dinosour.png --resize_ratio=2
+$ python stylize.py --model=models/starry_night.pb --input_image=test_images/ryan.png --resize_ratio=3
+$ python stylize.py --model=models/starry_night.pb --input_image=test_images/herb.png --resize_ratio=2
+$ python stylize.py --model=models/starry_night.pb --input_image=test_images/cheez.png --resize_ratio=4
 ```
-It generates stylized image and save it to 'test_images/Aaron_Eckart_0001_output.jpg
+It generates stylized images and save them to 'test_images'.
 
 
 ## Examples
